@@ -288,13 +288,6 @@ Here's an example of how you might configure the buttons for different response 
 }
 ```
 
-## 🔒 Security Features
-
-- **Unique Device IDs**: MAC address-based client identification
-- **Custom BLE MAC**: Separate BLE addressing to avoid conflicts
-- **Configurable Topics**: MQTT topic structure can be customized
-- **Webhook Authentication**: Supports authenticated webhook endpoints
-
 ## 🚨 Troubleshooting
 
 ### Common Issues
