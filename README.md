@@ -1,15 +1,15 @@
 # SHOO - Solicitor Harassment Offloading Orchestrator
 
-A sophisticated ESP32-based smart door controller that combines physical button inputs, LED lighting control, Bluetooth Low Energy (BLE) keyboard functionality, and MQTT communication to create an intelligent home automation system. SHOO is designed to help manage unwanted solicitors at your front door through automated responses and smart home integration.
+A sophisticated ESP32-based smart door management system that uses an iPad as its display, controlled via an Arduino board. The system combines physical button inputs (salvaged from an old Razer mechanical keyboard), LED lighting control, Bluetooth Low Energy (BLE) keyboard functionality, and MQTT communication to create an intelligent home automation system. SHOO is designed to help manage unwanted solicitors at your front door through automated responses and smart home integration.
 
 ## 🚪 What is SHOO?
 
-**SHOO** (Solicitor Harassment Offloading Orchestrator) is an intelligent door management system that helps you handle unwanted solicitors without having to answer the door. The system provides multiple response options through physical buttons, each triggering different automated actions. Here's an example configuration:
+**SHOO** (Solicitor Harassment Offloading Orchestrator) is an intelligent door management system that helps you handle unwanted solicitors without having to answer the door. The system uses an iPad mounted at your door as the display, which is automatically controlled by an ESP32 Arduino board. The system provides multiple response options through physical buttons, each triggering different automated actions. Here's an example configuration:
 
 - **Button 1-3**: "No Soliciting" responses with different levels of firmness
 - **Button 4**: "Thank you" response for people dropping off packages or polite interactions
 
-Each button press can trigger webhooks to your smart home system, send MQTT messages, and provide visual feedback through LED indicators. SHOO integrates seamlessly with Home Assistant, MQTT brokers, and other home automation platforms.
+Each button press can trigger webhooks to your smart home system, send MQTT messages, and provide visual feedback through LED indicators. The Arduino board acts as a Bluetooth keyboard to control the iPad, automatically waking it up and opening the UniFi Protect app when someone approaches, then locking it when they leave. SHOO integrates seamlessly with Home Assistant, MQTT brokers, and other home automation platforms.
 
 ## 🚀 Features
 
