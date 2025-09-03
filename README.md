@@ -39,6 +39,61 @@ Each button press can trigger webhooks to your smart home system, send MQTT mess
 - `arduino/1/ipad`: iPad control commands (lock/unlock)
 - `arduino/1/lights`: LED control commands
 
+## 📺 Screen Control Workflow
+
+SHOO integrates with Home Assistant and UniFi Protect to automatically control your door screen based on person detection. This creates a seamless experience where the screen turns on when someone approaches and turns off when they leave.
+
+### System Architecture
+
+```
+UniFi Protect Camera → Home Assistant → MQTT → Arduino → Screen Control
+```
+
+### Workflow Steps
+
+1. **Person Detection**: UniFi Protect cameras detect when a person is present at your door
+2. **Home Assistant Automation**: A Home Assistant automation triggers when person detection changes
+3. **MQTT Message**: Home Assistant publishes an MQTT status message indicating person presence
+4. **Arduino Response**: The Arduino receives the MQTT message and controls the screen accordingly
+5. **Screen Control**: 
+   - **Person Detected**: Screen turns ON (iPad wakes up, displays content)
+   - **Person Not Detected**: Screen turns OFF (iPad locks, conserves power)
+
+### Home Assistant Configuration
+
+#### UniFi Protect Integration
+- Install the [UniFi Protect integration](https://www.home-assistant.io/integrations/unifiprotect/) in Home Assistant
+- Configure with your UniFi Protect NVR credentials
+- Ensure person detection is enabled on your doorbell camera
+
+#### Real-World Automation Example
+Here's an actual Home Assistant automation that wakes up doorbell iPads when motion is detected:
+
+```yaml
+alias: "Wake up doorbell ipad"
+description: "Wakes up doorbell iPads when motion is detected"
+triggers:
+  - type: turned_on
+    device_id: YOUR_DEVICE_ID_HERE
+    entity_id: YOUR_ENTITY_ID_HERE
+    domain: binary_sensor
+    trigger: device
+conditions: []
+actions:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: 0
+      retain: false
+      topic: arduino/1/ipad
+      payload: "{\"lock\": false}"
+mode: single
+```
+
+**Note**: Replace `YOUR_DEVICE_ID_HERE` and `YOUR_ENTITY_ID_HERE` with your actual UniFi Protect device and entity IDs. Device ID is your camera device ID, and Entity ID is the `Person detected` sensor/boolean. It is easier to build the automation in the UI if you don't know these.
+
+
 ## 🛠️ Hardware Requirements
 
 ### ESP32 Development Board
