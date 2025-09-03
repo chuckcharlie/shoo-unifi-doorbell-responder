@@ -41,7 +41,7 @@ Each button press can trigger webhooks to your smart home system, send MQTT mess
 
 ## 📺 Screen Control Workflow
 
-SHOO integrates with Home Assistant and UniFi Protect to automatically control your door screen based on person detection. This creates a seamless experience where the screen turns on when someone approaches and turns off when they leave.
+SHOO integrates with Home Assistant and UniFi Protect to automatically control your iPad screen based on person detection. This creates a seamless experience where the screen turns on when someone approaches and turns off when they leave.
 
 ### System Architecture
 
@@ -93,6 +93,33 @@ mode: single
 
 **Note**: Replace `YOUR_DEVICE_ID_HERE` and `YOUR_ENTITY_ID_HERE` with your actual UniFi Protect device and entity IDs. Device ID is your camera device ID, and Entity ID is the `Person detected` sensor/boolean. It is easier to build the automation in the UI if you don't know these.
 
+### iPad Setup Requirements
+
+For the screen control workflow to work properly, your iPad needs specific configuration:
+
+#### iOS Shortcut Setup
+1. **Create a Simple Shortcut**: The only action should be to open the UniFi Protect app
+2. **Naming**: Name it something like "Open Protect App" for easy identification
+3. **Purpose**: This shortcut will be triggered by the Arduino's BLE keyboard commands
+
+#### iOS Accessibility Settings
+1. **Enable Keyboard Shortcuts**: Go to **Settings > Accessibility > Keyboard > Full Keyboard Access** and turn it ON
+2. **Shortcut Assignment**: In **Settings > Accessibility > Keyboard > Commands**, assign a keyboard shortcut to your "Open Protect App" shortcut. In our code, we use `CMD+SHIFT+P` as the shortcut combination.
+3. **Keyboard Permissions**: Ensure your BLE keyboard has permission to control the iPad
+4. **Testing**: Test the keyboard shortcut manually before relying on the Arduino automation
+
+#### UniFi Protect App Configuration
+1. **Last Viewed Camera**: In the UniFi Protect app settings, ensure "Open to last viewed camera" is enabled
+2. **Camera Selection**: View the doorbell camera feed before closing the Protect app. This ensures the app opens directly to your doorbell feed when activated
+
+#### Keyboard Shortcuts
+The Arduino uses specific keyboard shortcuts to control the iPad:
+- **Wake Screen**: `Space` followed by `CMD+SHIFT+P` (wakes iPad and opens Protect app)
+- **Lock Screen**: `CMD+W` followed by `CMD+CTRL+Q` (closes app and locks screen)
+
+#### Complete Workflow
+1. **Person Detected**: Arduino sends wake command → iPad wakes → Shortcut opens Protect app → Doorbell camera feed displays
+2. **Person Not Detected**: Arduino sends lock command → Protect app closes → iPad locks → Screen turns off
 
 ## 🛠️ Hardware Requirements
 
@@ -174,11 +201,16 @@ SHOO is designed for various door interaction scenarios:
 - **Security Systems**: Log all door interactions and trigger appropriate security measures
 - **Lighting**: Use LED indicators to show system status and button press feedback
 
-### Button Functions
-1. **Button 1**: "No Soliciting" (Firm) - Triggers webhook 1, publishes MQTT status
-2. **Button 2**: "No Soliciting" (Moderate) - Triggers webhook 2, publishes MQTT status
-3. **Button 3**: "No Soliciting" (Gentle) - Triggers webhook 3, publishes MQTT status
-4. **Button 4**: "Thank you, but no thank you" - Triggers webhook 4, publishes MQTT status
+### Button Functions Example
+
+Here's an example of how you might configure the buttons for different response levels:
+
+1. **Button 1**: "No Soliciting" (Gentle) - Triggers webhook 1, publishes MQTT status
+2. **Button 2**: "No Soliciting" (Moderate) - Triggers webhook 2, publishes MQTT status  
+3. **Button 3**: "No Soliciting" (Firm) - Triggers webhook 3, publishes MQTT status
+4. **Button 4**: "Thank you" - Triggers webhook 4, publishes MQTT status
+
+**Note**: This is just one example configuration. Buttons 1-3 could provide escalating levels of firmness for persistent solicitors, while Button 4 could offer a simple "thank you" response for courteous visitors. You can customize the button functions and responses to match your specific needs and preferences.
 
 ### LED Control via MQTT
 
