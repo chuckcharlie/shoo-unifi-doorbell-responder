@@ -4,10 +4,10 @@ A sophisticated ESP32-based smart door controller that combines physical button 
 
 ## 🚪 What is SHOO?
 
-**SHOO** (Solicitor Harassment Offloading Orchestrator) is an intelligent door management system that helps you handle unwanted solicitors without having to answer the door. The system provides multiple response options through physical buttons, each triggering different automated actions:
+**SHOO** (Solicitor Harassment Offloading Orchestrator) is an intelligent door management system that helps you handle unwanted solicitors without having to answer the door. The system provides multiple response options through physical buttons, each triggering different automated actions. Here's an example configuration:
 
 - **Button 1-3**: "No Soliciting" responses with different levels of firmness
-- **Button 4**: "Thank you, but no thank you" response for polite solicitors
+- **Button 4**: "Thank you" response for people dropping off packages or polite interactions
 
 Each button press can trigger webhooks to your smart home system, send MQTT messages, and provide visual feedback through LED indicators. SHOO integrates seamlessly with Home Assistant, MQTT brokers, and other home automation platforms.
 
