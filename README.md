@@ -133,11 +133,16 @@ The Arduino uses specific keyboard shortcuts to control the iPad:
 - **Resistors**: 10kΩ pull-up resistors (if not using internal pull-ups)
 - **Power Supply**: 5V for LEDs, 3.3V for ESP32
 
+**Important**: Pin selection varies by ESP32 board. Avoid pins with special functions (boot, flash, etc.) and refer to your board's pinout diagram for safe GPIO pins.
+
 ### Pin Configuration
 ```cpp
-#define LED_PIN     21  // WS2812B data pin
-#define keyPins[4] = {12, 14, 26, 27};  // Button input pins
+#define LED_PIN     YOUR_LED_DATA_PIN    // WS2812B data pin (configurable)
+#define keyPins[4] = {YOUR_BUTTON_PIN_1, YOUR_BUTTON_PIN_2, 
+                      YOUR_BUTTON_PIN_3, YOUR_BUTTON_PIN_4};  // Button input pins (configurable)
 ```
+
+**Note**: Pin numbers vary by ESP32 board. Choose pins that are safe for your specific board and avoid pins with special functions (like boot, flash, etc.).
 
 ## 📚 Dependencies
 
@@ -294,62 +299,29 @@ Here's an example of how you might configure the buttons for different response 
 
 ### Common Issues
 
-#### WiFi Connection Problems
-- Verify SSID and password are correct
-- Check WiFi signal strength
-- Ensure ESP32 is within range of router
+#### WiFi & MQTT
+- **Connection failures**: Check credentials and network connectivity
+- **Reconnection loops**: Device auto-reconnects every 30s (WiFi) and 10s (MQTT)
+- **Serial output**: Monitor for connection status and error codes
 
-#### MQTT Connection Issues
-- Verify MQTT broker address and port
-- Check network connectivity
-- Review MQTT broker logs for connection attempts
+#### BLE Keyboard
+- **iPad not responding**: Verify Bluetooth enabled and HID permissions granted
+- **Multiple devices**: Check for conflicting BLE device names
+- **Connection status**: Monitor Serial output for "iPad connected!" / "iPad disconnected!" messages
 
-#### BLE Connection Problems
-- Ensure iPad Bluetooth is enabled
-- Check for multiple devices with similar names
-- Verify HID keyboard permissions on iPad
+#### Screen Control
+- **Shortcut not opening**: Verify iOS Accessibility > Keyboard > Full Keyboard Access is ON
+- **Wrong camera**: Ensure doorbell camera was last viewed before closing Protect app
+- **Keyboard shortcuts**: Test `CMD+SHIFT+P` manually before automation
 
-#### LED Issues
-- Check power supply (5V for LEDs)
-- Verify data pin connection
-- Ensure FastLED library is properly installed
+#### Hardware
+- **LEDs not working**: Check 5V power supply and data pin connection
+- **Buttons unresponsive**: Verify button pin connections and pull-up resistors
+- **Webhook failures**: Check HTTP endpoints and network connectivity
 
-### Debug Information
-The device provides extensive Serial output for debugging:
-- WiFi connection status
-- MQTT connection attempts
-- BLE device initialization
-- Button press detection
+### Debug Commands
+Monitor Serial output (115200 baud) for:
+- Connection status: WiFi, MQTT, BLE
+- Button presses and webhook triggers
+- MQTT message processing
 - LED control commands
-
-## 🔄 Updates and Maintenance
-
-### Firmware Updates
-- Upload new code via Arduino IDE
-- Monitor Serial output for initialization status
-- Verify all connections after updates
-
-### Configuration Changes
-- Modify constants in the code
-- Restart device to apply changes
-- Test functionality after modifications
-
-## 📋 License
-
-This project is open source. Please ensure you comply with the licenses of all included libraries.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.
-
-## 📞 Support
-
-For questions or support:
-1. Check the troubleshooting section
-2. Review Serial output for error messages
-3. Verify all hardware connections
-4. Test individual components separately
-
----
-
-**Note**: This is a sanitized version of the original code. Replace all placeholder values (YOUR_WIFI_SSID, YOUR_MQTT_SERVER, etc.) with your actual configuration before uploading to your ESP32.
