@@ -123,15 +123,12 @@ The Arduino uses specific keyboard shortcuts to control the iPad:
 
 ## 🛠️ Hardware Requirements
 
-### ESP32 Development Board
-- Any ESP32-based board (ESP32 DevKit, ESP32-WROOM, etc.)
-- WiFi and Bluetooth capabilities required
-
-### Components
-- **WS2812B LED Strip**: 6 LEDs (configurable)
-- **4 Push Buttons**: Momentary switches for input
-- **Resistors**: 10kΩ pull-up resistors (if not using internal pull-ups)
+### Hardware Components
+- **ESP32 Development Board**: Any ESP32-based board with WiFi and Bluetooth capabilities (example: [ESP32 Development Board](https://a.co/d/aIM3FmD))
+- **WS2812B LED Strip**: Individually addressable programmable RGB LED strip (example: [SEZO WS2812B LED Strip Light](https://a.co/d/31H1atP) - 6 LEDs used from the strip)
+- **4 Push Buttons**: Momentary switches for input (used leftover [Razer Orange Tactile Mechanical Switches](https://a.co/d/739T2s5) - any similar tactile switches will work)
 - **Power Supply**: 5V for LEDs, 3.3V for ESP32
+- **USB-C Extension Cable**: Short right-angle USB-C extension cable for easy cable management (example: [Poyiccot Flat Short USB-C Extension Cable](https://a.co/d/1ywyXY7))
 
 **Important**: Pin selection varies by ESP32 board. Avoid pins with special functions (boot, flash, etc.) and refer to your board's pinout diagram for safe GPIO pins.
 
